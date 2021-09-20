@@ -7,8 +7,9 @@ async function getSentim(text="") {
         },
         body: JSON.stringify({"text": `${text}`})
     });
+    const status = response.status;
     const result = await response.json();
-    return result;
+    return [result, status];
 }
 
 async function sendText(){
@@ -20,28 +21,39 @@ async function sendText(){
     loadingImage.setAttribute("style", "width: 200px");
     resultDiv.appendChild(loadingImage);
 
+    // Removes the existing sentims from the dom (and their cat photos)
     const existingSentims = document.querySelectorAll(".sentims");
     for (let sentims of existingSentims){
         resultDiv.removeChild(sentims);
     }
+    const existingStatusImgs = document.querySelectorAll(".status-img");
+    for (let imgs of existingStatusImgs){
+        resultDiv.removeChild(imgs);
+    }
 
     const textToSend = document.querySelector("#text-area").value;
     const sentim = await getSentim(textToSend);
-    console.log(sentim);
 
-    const textSentimColor = getColor(sentim.result.polarity);
+    const textSentimColor = getColor(sentim[0].result.polarity);
 
     const newSentim = document.createElement("div");
     newSentim.classList.add("sentims");
 
     newSentim.innerText = 
-        `Your Sentence: ${sentim.sentences[0].sentence}
-        Polarity: ${sentim.result.polarity}
-        Type: ${sentim.result.type}`
+        `Your Sentence: ${sentim[0].sentences[0].sentence}
+        Polarity: ${sentim[0].result.polarity}
+        Type: ${sentim[0].result.type}`
     newSentim.style.color = textSentimColor;
 
     resultDiv.appendChild(newSentim);
     resultDiv.removeChild(loadingImage);
+
+    const sentimStatus = sentim[1];
+    const sentimStatusImg = document.createElement("img");
+    sentimStatusImg.classList.add("status-img")
+    sentimStatusImg.setAttribute("src", `https://http.cat/${sentimStatus}`)
+
+    resultDiv.appendChild(sentimStatusImg);
 }
 
 function getColor(sentim) {
