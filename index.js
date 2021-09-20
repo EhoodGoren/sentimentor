@@ -40,7 +40,7 @@ async function sendText(){
     newSentim.classList.add("sentims");
 
     newSentim.innerText = 
-        `Your Sentence: ${sentim[0].sentences[0].sentence}
+        `\n Your Sentence: ${sentim[0].sentences[0].sentence}
         Polarity: ${sentim[0].result.polarity}
         Type: ${sentim[0].result.type}`
     newSentim.style.color = textSentimColor;
