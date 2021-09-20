@@ -1,0 +1,9 @@
+#result {
+    width: 30vw;
+    border: 2px solid;
+}
+
+.loading-images{
+    width: 40px;
+    height: 40px;
+}

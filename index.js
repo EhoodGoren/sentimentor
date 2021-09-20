@@ -16,14 +16,18 @@ async function sendText(){
 
     const loadingImage = document.createElement("img");
     loadingImage.setAttribute("src", "https://media4.giphy.com/media/3o7bu8sRnYpTOG1p8k/giphy.gif?cid=ecf05e471z0rb3o8hq50tpjrflxos3d1pdq9heu1a9slec1r&rid=giphy.gif&ct=g");
+    loadingImage.setAttribute("style", "height: 200px");
+    loadingImage.setAttribute("style", "width: 200px");
     resultDiv.appendChild(loadingImage);
 
     const existingSentims = document.querySelectorAll(".sentims");
     for (let sentims of existingSentims){
         resultDiv.removeChild(sentims);
     }
+
     const textToSend = document.querySelector("#text-area").value;
     const sentim = await getSentim(textToSend);
+    console.log(sentim);
 
     const textSentimColor = getColor(sentim.result.polarity);
 
