@@ -39,10 +39,17 @@ async function sendText(){
         const sentim = await getSentim(textToSend);
     }
     catch (error){
+        resultDiv.removeChild(loadingImage);
+
+        const sentimError = document.createElement("div");
+        sentimError.classList.add("sentims");
+        sentimError.innerText = error;
+        resultDiv.appendChild(sentimError);
+
         const sentimStatusImg = getSentimStatusImg(error.message);
     
-        resultDiv.removeChild(loadingImage);
         resultDiv.appendChild(sentimStatusImg);
+
         throw error;
     }
 
