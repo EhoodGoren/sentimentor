@@ -12,20 +12,32 @@ async function getSentim(text="") {
 }
 
 async function sendText(){
+    const resultDiv = document.querySelector("#result");
+
+    const loadingImage = document.createElement("img");
+    loadingImage.setAttribute("src", "https://media4.giphy.com/media/3o7bu8sRnYpTOG1p8k/giphy.gif?cid=ecf05e471z0rb3o8hq50tpjrflxos3d1pdq9heu1a9slec1r&rid=giphy.gif&ct=g");
+    resultDiv.appendChild(loadingImage);
+
+    const existingSentims = document.querySelectorAll(".sentims");
+    for (let sentims of existingSentims){
+        resultDiv.removeChild(sentims);
+    }
     const textToSend = document.querySelector("#text-area").value;
     const sentim = await getSentim(textToSend);
 
     const textSentimColor = getColor(sentim.result.polarity);
 
-    const resultDiv = document.createElement("div");
+    const newSentim = document.createElement("div");
+    newSentim.classList.add("sentims");
 
-    resultDiv.innerText = 
+    newSentim.innerText = 
         `Your Sentence: ${sentim.sentences[0].sentence}
         Polarity: ${sentim.result.polarity}
         Type: ${sentim.result.type}`
-    resultDiv.style.color = textSentimColor;
+    newSentim.style.color = textSentimColor;
 
-    document.querySelector("#result").appendChild(resultDiv);
+    resultDiv.appendChild(newSentim);
+    resultDiv.removeChild(loadingImage);
 }
 
 function getColor(sentim) {
